@@ -47,6 +47,22 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#667eea" />
+
+        {/* Google Analytics (GA4) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-PJFYER4MDV"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-PJFYER4MDV');
+          `}
+        </Script>
+
         {/* Google AdSense */}
         <Script
           async
