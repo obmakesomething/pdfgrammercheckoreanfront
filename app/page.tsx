@@ -8,6 +8,8 @@ import SEOContent from '@/components/SEOContent'
 export default function Home() {
   const [pdfFile, setPdfFile] = useState<File | null>(null)
   const [email, setEmail] = useState('')
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false)
   const [showAd, setShowAd] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
@@ -21,6 +23,16 @@ export default function Home() {
 
     if (!email || !validateEmail(email)) {
       setMessage({ type: 'error', text: '올바른 이메일 주소를 입력해주세요.' })
+      return
+    }
+
+    if (!agreedToTerms) {
+      setMessage({ type: 'error', text: '이용약관에 동의해주세요.' })
+      return
+    }
+
+    if (!agreedToPrivacy) {
+      setMessage({ type: 'error', text: '개인정보 처리방침에 동의해주세요.' })
       return
     }
 
@@ -60,6 +72,8 @@ export default function Home() {
         // Reset form
         setPdfFile(null)
         setEmail('')
+        setAgreedToTerms(false)
+        setAgreedToPrivacy(false)
       } else {
         setMessage({
           type: 'error',
@@ -106,6 +120,10 @@ export default function Home() {
               setPdfFile={setPdfFile}
               email={email}
               setEmail={setEmail}
+              agreedToTerms={agreedToTerms}
+              setAgreedToTerms={setAgreedToTerms}
+              agreedToPrivacy={agreedToPrivacy}
+              setAgreedToPrivacy={setAgreedToPrivacy}
               onSubmit={handleSubmit}
               isProcessing={isProcessing}
             />
