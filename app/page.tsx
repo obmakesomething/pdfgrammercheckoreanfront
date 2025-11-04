@@ -49,14 +49,20 @@ export default function Home() {
   const handleAdComplete = async () => {
     setShowAd(false)
     setIsProcessing(true)
-    setMessage({ type: 'success', text: '광고 시청이 완료되었습니다. 검사를 시작합니다...' })
 
     try {
+      // 단계 1: 업로드 시작
+      setMessage({ type: 'success', text: '📤 파일 업로드 중...' })
+
       const formData = new FormData()
       formData.append('pdf', pdfFile!)
       formData.append('email', email)
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+
+      // 단계 2: 서버 전송
+      setMessage({ type: 'success', text: '⏳ PDF 텍스트 추출 중...' })
+
       const response = await fetch(`${apiUrl}/api/check-pdf`, {
         method: 'POST',
         body: formData,
@@ -65,9 +71,14 @@ export default function Home() {
       const data = await response.json()
 
       if (response.ok) {
+        // 단계 3: 완료
+        const errorText = data.errors_found === 0
+          ? '✅ 맞춤법 오류가 발견되지 않았습니다!'
+          : `✅ ${data.errors_found}개의 맞춤법 오류를 발견했습니다!`
+
         setMessage({
           type: 'success',
-          text: `검사 요청이 완료되었습니다! 발견된 오류: ${data.errors_found}개\n5분 이내 이메일로 결과를 발송해드립니다.`
+          text: `${errorText}\n\n📧 5분 이내에 ${email}로 검사 결과를 발송해드립니다.\n(이메일이 오지 않으면 스팸함을 확인해주세요)`
         })
         // Reset form
         setPdfFile(null)
@@ -77,14 +88,14 @@ export default function Home() {
       } else {
         setMessage({
           type: 'error',
-          text: data.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          text: `❌ ${data.message || '오류가 발생했습니다. 다시 시도해주세요.'}`
         })
       }
     } catch (error) {
       console.error('Error:', error)
       setMessage({
         type: 'error',
-        text: '서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.'
+        text: '❌ 서버 연결에 실패했습니다.\n네트워크 상태를 확인한 후 다시 시도해주세요.'
       })
     } finally {
       setIsProcessing(false)
