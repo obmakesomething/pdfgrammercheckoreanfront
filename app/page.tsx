@@ -58,7 +58,7 @@ export default function Home() {
       formData.append('pdf', pdfFile!)
       formData.append('email', email)
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://apiscffqugt.up.railway.app'
 
       // 단계 2: 서버 전송
       setMessage({ type: 'success', text: '⏳ PDF 텍스트 추출 중...' })
