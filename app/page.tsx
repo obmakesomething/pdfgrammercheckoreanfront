@@ -58,34 +58,40 @@ export default function Home() {
       formData.append('pdf', pdfFile!)
       formData.append('email', email)
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://apiscffqugt.up.railway.app'
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.pdfgrammercheckorean.site'
 
       // 단계 2: 서버 전송
-      setMessage({ type: 'success', text: '⏳ PDF 텍스트 추출 중...' })
+      setMessage({ type: 'success', text: '⏳ PDF 맞춤법 검사 중...' })
 
       const response = await fetch(`${apiUrl}/api/check-pdf`, {
         method: 'POST',
         body: formData,
       })
 
-      const data = await response.json()
-
       if (response.ok) {
-        // 단계 3: 완료
-        const errorText = data.errors_found === 0
-          ? '✅ 맞춤법 오류가 발견되지 않았습니다!'
-          : `✅ ${data.errors_found}개의 맞춤법 오류를 발견했습니다!`
+        // PDF 파일 다운로드
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${pdfFile!.name.replace('.pdf', '')}_맞춤법검사.pdf`
+        document.body.appendChild(a)
+        a.click()
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
 
         setMessage({
           type: 'success',
-          text: `${errorText}\n\n📧 5분 이내에 ${email}로 검사 결과를 발송해드립니다.\n(이메일이 오지 않으면 스팸함을 확인해주세요)`
+          text: '✅ 맞춤법 검사 완료!\n\nPDF 파일이 다운로드되었습니다.\n빨간색 주석을 클릭하면 수정 제안을 확인할 수 있습니다.'
         })
+
         // Reset form
         setPdfFile(null)
         setEmail('')
         setAgreedToTerms(false)
         setAgreedToPrivacy(false)
       } else {
+        const data = await response.json()
         setMessage({
           type: 'error',
           text: `❌ ${data.message || '오류가 발생했습니다. 다시 시도해주세요.'}`

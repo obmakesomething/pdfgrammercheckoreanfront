@@ -140,7 +140,7 @@ export default function PDFUploader({
           disabled={isProcessing}
         />
         <p className="text-xs text-gray-500 mt-2">
-          검사 완료된 PDF 파일을 이메일로 받으실 수 있습니다
+          검사 완료 후 수정된 PDF 파일을 다운로드하실 수 있습니다
         </p>
       </div>
 
