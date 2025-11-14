@@ -176,13 +176,29 @@
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             transition: border-color 0.3s;
         }
 
         .email-input:focus {
             outline: none;
             border-color: #667eea;
+        }
+
+        .email-input.error {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .email-required {
+            color: #dc3545;
+            font-size: 13px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .email-required.active {
+            display: block;
         }
 
         .submit-btn {
@@ -259,104 +275,250 @@
             margin-top: 10px;
         }
 
-        .survey-container {
+
+        .progress-container {
+            margin-top: 15px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-percentage {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .progress-steps {
+            padding: 10px;
             background: #f8f9ff;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            padding: 30px;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .progress-step {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .progress-step.completed {
+            color: #28a745;
+        }
+
+        .progress-step.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .progress-step.pending {
+            color: #ccc;
+        }
+
+        .results-container {
             margin-top: 20px;
             display: none;
         }
 
-        .survey-container.active {
+        .results-container.active {
             display: block;
         }
 
-        .survey-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            text-align: center;
+        .results-header {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #667eea;
         }
 
-        .survey-subtitle {
+        .results-stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
             font-size: 14px;
             color: #666;
-            margin-bottom: 25px;
-            text-align: center;
+            margin-top: 5px;
         }
 
-        .survey-question {
-            margin-bottom: 25px;
+        .warning-message {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
 
-        .survey-question-text {
-            font-size: 15px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
+        .errors-list {
+            max-height: 500px;
+            overflow-y: auto;
         }
 
-        .survey-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .survey-option {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
+        .error-card {
             background: white;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .survey-option:hover {
+        .error-card:hover {
             border-color: #667eea;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.1);
+        }
+
+        .error-card-header {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background: #f8f9ff;
         }
 
-        .survey-option input[type="radio"] {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
+        .error-card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
         }
 
-        .survey-option label {
-            flex: 1;
-            cursor: pointer;
-            font-size: 14px;
+        .error-badge {
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .error-badge.SPACING {
+            background: #007bff;
+        }
+
+        .error-badge.SPELL {
+            background: #dc3545;
+        }
+
+        .error-badge.GRAMMAR {
+            background: #ffc107;
             color: #333;
         }
 
-        .survey-submit-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
+        .error-badge.TYPO {
+            background: #dc3545;
+        }
+
+        .error-badge.default {
+            background: #ff6600;
+        }
+
+        .error-text-wrong {
+            color: #dc3545;
             font-weight: 600;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: line-through;
         }
 
-        .survey-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        .error-text-correct {
+            color: #28a745;
+            font-weight: 600;
         }
 
-        .survey-submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
+        .error-arrow {
+            color: #999;
+            margin: 0 5px;
+        }
+
+        .error-toggle {
+            color: #667eea;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .error-card.expanded .error-toggle {
+            transform: rotate(180deg);
+        }
+
+        .error-card-body {
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            display: none;
+        }
+
+        .error-card.expanded .error-card-body {
+            display: block;
+        }
+
+        .error-detail-row {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .error-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .error-detail-label {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .error-detail-value {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .page-badge {
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         .spinner {
@@ -397,7 +559,7 @@
             <div class="upload-area" id="uploadArea" role="button" tabindex="0" aria-label="PDF 파일 업로드">
                 <div class="upload-icon" aria-hidden="true">📄</div>
                 <div class="upload-text">PDF 파일을 선택하거나 드래그하세요</div>
-                <div class="upload-hint">최대 20MB까지 업로드 가능합니다</div>
+                <div class="upload-hint">최대 30MB까지 업로드 가능합니다</div>
                 <input type="file" id="fileInput" class="file-input" accept=".pdf" aria-label="PDF 파일 선택">
             </div>
 
@@ -412,11 +574,12 @@
                 type="email"
                 id="emailInput"
                 class="email-input"
-                placeholder="이메일 주소를 입력하세요"
+                placeholder="이메일 주소를 입력하세요 (필수)"
                 required
                 aria-label="이메일 주소"
                 aria-required="true"
             >
+            <div class="email-required" id="emailRequired">✱ 이메일 주소를 입력해주세요</div>
         </section>
 
         <section aria-label="검사 시작">
@@ -427,64 +590,39 @@
 
         <aside class="ad-container" id="adContainer" role="complementary" aria-label="광고">
             <p><strong>광고 시청 중...</strong></p>
-            <p style="color: #666; margin-top: 10px;">광고 시청 후 간단한 설문조사가 진행됩니다</p>
+            <p style="color: #666; margin-top: 10px;">잠시만 기다려주세요</p>
             <div class="ad-timer" id="adTimer" role="timer" aria-live="polite">15초 남음</div>
         </aside>
 
-        <aside class="survey-container" id="surveyContainer" role="complementary" aria-label="설문조사">
-            <div class="survey-title">📋 간단한 설문조사</div>
-            <p class="survey-subtitle">서비스 개선을 위해 2가지 질문에 답변해주세요 (30초 소요)</p>
-
-            <div class="survey-question">
-                <div class="survey-question-text">1. 이 서비스를 어떻게 알게 되셨나요?</div>
-                <div class="survey-options">
-                    <div class="survey-option">
-                        <input type="radio" id="source1" name="source" value="search">
-                        <label for="source1">검색엔진 (네이버, 구글 등)</label>
-                    </div>
-                    <div class="survey-option">
-                        <input type="radio" id="source2" name="source" value="sns">
-                        <label for="source2">SNS (카카오톡, 인스타그램 등)</label>
-                    </div>
-                    <div class="survey-option">
-                        <input type="radio" id="source3" name="source" value="recommend">
-                        <label for="source3">지인 추천</label>
-                    </div>
-                    <div class="survey-option">
-                        <input type="radio" id="source4" name="source" value="other">
-                        <label for="source4">기타</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="survey-question">
-                <div class="survey-question-text">2. 주로 어떤 목적으로 사용하시나요?</div>
-                <div class="survey-options">
-                    <div class="survey-option">
-                        <input type="radio" id="purpose1" name="purpose" value="work">
-                        <label for="purpose1">업무 문서 작성</label>
-                    </div>
-                    <div class="survey-option">
-                        <input type="radio" id="purpose2" name="purpose" value="study">
-                        <label for="purpose2">학업 (과제, 논문 등)</label>
-                    </div>
-                    <div class="survey-option">
-                        <input type="radio" id="purpose3" name="purpose" value="personal">
-                        <label for="purpose3">개인 문서</label>
-                    </div>
-                    <div class="survey-option">
-                        <input type="radio" id="purpose4" name="purpose" value="other">
-                        <label for="purpose4">기타</label>
-                    </div>
-                </div>
-            </div>
-
-            <button class="survey-submit-btn" id="surveySubmitBtn" disabled>
-                검사 시작하기
-            </button>
-        </aside>
-
         <div class="status" id="status" role="status" aria-live="polite"></div>
+
+        <div class="results-container" id="resultsContainer">
+            <div class="results-header">
+                <h2 style="margin: 0; color: #333;">📊 검사 결과</h2>
+                <div class="results-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="statTotal">0</div>
+                        <div class="stat-label">총 발견된 오류</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="statHighlighted" style="color: #28a745;">0</div>
+                        <div class="stat-label">PDF에 표시된 오류</div>
+                    </div>
+                    <div class="stat-item" id="statNotHighlightedContainer" style="display: none;">
+                        <div class="stat-number" id="statNotHighlighted" style="color: #ffc107;">0</div>
+                        <div class="stat-label">표시되지 않은 오류</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-message" id="warningMessage" style="display: none;">
+                ⚠️ 일부 오류는 PDF에 하이라이트되지 않았습니다. 아래 목록에서 수동으로 확인해주세요.
+            </div>
+
+            <div class="errors-list" id="errorsList">
+                <!-- 오류 카드가 동적으로 추가됩니다 -->
+            </div>
+        </div>
 
         <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #999; font-size: 12px;">
             <p>&copy; 2024 PDF 맞춤법 검사기. All rights reserved.</p>
@@ -509,73 +647,13 @@
         const fileName = document.getElementById('fileName');
         const fileSize = document.getElementById('fileSize');
         const emailInput = document.getElementById('emailInput');
+        const emailRequired = document.getElementById('emailRequired');
         const submitBtn = document.getElementById('submitBtn');
         const adContainer = document.getElementById('adContainer');
         const adTimer = document.getElementById('adTimer');
-        const surveyContainer = document.getElementById('surveyContainer');
-        const surveySubmitBtn = document.getElementById('surveySubmitBtn');
         const status = document.getElementById('status');
 
         let selectedFile = null;
-        let surveyData = {
-            source: null,
-            purpose: null
-        };
-
-        // 설문조사 라디오 버튼 이벤트
-        document.querySelectorAll('input[name="source"]').forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                surveyData.source = e.target.value;
-                checkSurveyComplete();
-            });
-        });
-
-        document.querySelectorAll('input[name="purpose"]').forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                surveyData.purpose = e.target.value;
-                checkSurveyComplete();
-            });
-        });
-
-        // 설문조사 완료 확인
-        function checkSurveyComplete() {
-            if (surveyData.source && surveyData.purpose) {
-                surveySubmitBtn.disabled = false;
-            }
-        }
-
-        // 설문조사 제출
-        surveySubmitBtn.addEventListener('click', async () => {
-            console.log('설문조사 응답:', surveyData);
-            surveyContainer.classList.remove('active');
-
-            // 설문조사 데이터를 서버에 전송
-            await sendSurveyData(surveyData);
-
-            // API 요청 시작
-            await submitToAPI(selectedFile, emailInput.value.trim());
-        });
-
-        // 설문조사 데이터 전송
-        async function sendSurveyData(data) {
-            try {
-                const surveyUrl = API_URL.replace('/check-pdf', '/survey');
-                await fetch(surveyUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        source: data.source,
-                        purpose: data.purpose,
-                        email: emailInput.value.trim()
-                    })
-                });
-                console.log('설문조사 데이터 전송 완료');
-            } catch (error) {
-                console.error('설문조사 전송 실패:', error);
-            }
-        }
 
         // 업로드 영역 클릭 시
         uploadArea.addEventListener('click', () => {
@@ -613,7 +691,7 @@
             }
 
             if (file.size > 20 * 1024 * 1024) {
-                showStatus('error', '파일 크기는 20MB 이하여야 합니다');
+                showStatus('error', '파일 크기는 30MB 이하여야 합니다');
                 return;
             }
 
@@ -624,6 +702,12 @@
             hideStatus();
         }
 
+        // 이메일 입력 시 에러 표시 제거
+        emailInput.addEventListener('input', () => {
+            emailInput.classList.remove('error');
+            emailRequired.classList.remove('active');
+        });
+
         // 제출 버튼 클릭
         submitBtn.addEventListener('click', async () => {
             if (!selectedFile) {
@@ -633,11 +717,16 @@
 
             const email = emailInput.value.trim();
             if (!email) {
+                emailInput.classList.add('error');
+                emailRequired.classList.add('active');
                 showStatus('error', '이메일 주소를 입력해주세요');
                 return;
             }
 
             if (!isValidEmail(email)) {
+                emailInput.classList.add('error');
+                emailRequired.textContent = '✱ 올바른 이메일 형식을 입력해주세요';
+                emailRequired.classList.add('active');
                 showStatus('error', '올바른 이메일 주소를 입력해주세요');
                 return;
             }
@@ -645,8 +734,8 @@
             // 1. 광고 시뮬레이션 (실제로는 Google IMA SDK 사용)
             await showAd();
 
-            // 2. 설문조사 표시
-            showSurvey();
+            // 2. API 요청 시작
+            await submitToAPI(selectedFile, email);
         });
 
         // 광고 표시 (시뮬레이션)
@@ -669,16 +758,55 @@
             });
         }
 
-        // 설문조사 표시
-        function showSurvey() {
-            surveyContainer.classList.add('active');
-            submitBtn.disabled = true;
-        }
-
         // API 요청
         async function submitToAPI(file, email) {
-            showStatus('loading', '<div class="spinner"></div> 처리 중입니다... 5분 이내에 이메일로 결과를 받으실 수 있습니다');
             submitBtn.disabled = true;
+
+            // 진행 상태 표시
+            const progressHTML = `
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <strong>PDF 맞춤법 검사 진행 중...</strong>
+                        <span class="progress-percentage" id="progressPercentage">0%</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-steps">
+                        <div class="progress-step active" id="step1">⏳ 1단계: PDF 텍스트 추출 중...</div>
+                        <div class="progress-step pending" id="step2">⏸ 2단계: 텍스트 전처리 대기 중</div>
+                        <div class="progress-step pending" id="step3">⏸ 3단계: 맞춤법 검사 대기 중</div>
+                        <div class="progress-step pending" id="step4">⏸ 4단계: 오류 위치 분석 대기 중</div>
+                        <div class="progress-step pending" id="step5">⏸ 5단계: PDF 하이라이트 생성 대기 중</div>
+                    </div>
+                    <p style="margin-top: 10px; font-size: 13px; text-align: center;">처리 완료 후 자동으로 다운로드됩니다</p>
+                </div>
+            `;
+            showStatus('loading', progressHTML);
+
+            // 진행 상태 업데이트 시뮬레이션 (더 현실적으로)
+            let currentProgress = 0;
+            let currentStep = 1;
+
+            const progressInterval = setInterval(() => {
+                // 각 단계별 진행률 증가
+                if (currentStep === 1 && currentProgress < 20) {
+                    currentProgress += 2; // 0% → 20%
+                } else if (currentStep === 2 && currentProgress < 35) {
+                    currentProgress += 1.5; // 20% → 35%
+                } else if (currentStep === 3 && currentProgress < 60) {
+                    currentProgress += 2.5; // 35% → 60%
+                } else if (currentStep === 4 && currentProgress < 80) {
+                    currentProgress += 2; // 60% → 80%
+                } else if (currentStep === 5 && currentProgress < 95) {
+                    currentProgress += 1.5; // 80% → 95%
+                } else if (currentStep < 5) {
+                    currentStep++;
+                    updateProgressSteps(currentStep, Math.floor(currentProgress));
+                }
+
+                updateProgressBar(Math.floor(currentProgress));
+            }, 500); // 0.5초마다 업데이트
 
             try {
                 const formData = new FormData();
@@ -690,27 +818,216 @@
                     body: formData
                 });
 
-                const result = await response.json();
+                clearInterval(progressInterval);
 
-                if (response.ok && result.status === 'success') {
-                    showStatus('success',
-                        `✓ 검사 요청이 완료되었습니다!<br>` +
-                        `발견된 오류: ${result.errors_found}개<br>` +
-                        `5분 이내에 <strong>${email}</strong>로 결과를 발송해드립니다.`
-                    );
+                // JSON 응답 처리
+                if (response.ok) {
+                    const result = await response.json();
 
-                    // 폼 초기화
-                    setTimeout(() => {
-                        resetForm();
-                    }, 3000);
+                    if (result.status === 'success') {
+                        // 완료 처리
+                        completeAllSteps();
+
+                        // PDF 다운로드 (base64 디코딩)
+                        const pdfBlob = base64ToBlob(result.pdf_data, 'application/pdf');
+                        const url = window.URL.createObjectURL(pdfBlob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = result.pdf_filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+
+                        // 성공 메시지
+                        showStatus('success',
+                            `✓ 검사가 완료되었습니다!<br>` +
+                            `발견된 오류: ${result.errors_found}개<br>` +
+                            `파일이 자동으로 다운로드되었습니다.<br>` +
+                            `<strong>${email}</strong>로도 이메일이 발송되었습니다.<br><br>` +
+                            `<strong style="color: #667eea;">💡 주석 확인 방법:</strong><br>` +
+                            `다운로드된 PDF 또는 이메일 첨부파일을 <strong>Adobe Acrobat</strong> 또는 주석 기능을 지원하는 PDF 뷰어로 열어주세요.<br>` +
+                            `틀린 부분이 색상별로 하이라이트되어 있으며, 클릭하면 자세한 설명을 볼 수 있습니다.`
+                        );
+
+                        // 검사 결과 표시
+                        displayResults(result);
+
+                        // 폼 초기화는 하지 않음 (결과를 계속 볼 수 있도록)
+                    } else {
+                        showStatus('error', `✗ 오류 발생: ${result.message}`);
+                        submitBtn.disabled = false;
+                    }
                 } else {
+                    const result = await response.json();
                     showStatus('error', `✗ 오류 발생: ${result.message}`);
                     submitBtn.disabled = false;
                 }
             } catch (error) {
+                clearInterval(progressInterval);
                 showStatus('error', `✗ 서버 연결 실패: ${error.message}<br>잠시 후 다시 시도해주세요.`);
                 submitBtn.disabled = false;
             }
+        }
+
+        // 프로그레스 바 업데이트
+        function updateProgressBar(percentage) {
+            const progressBar = document.getElementById('progressBar');
+            const progressPercentage = document.getElementById('progressPercentage');
+
+            if (progressBar && progressPercentage) {
+                progressBar.style.width = `${percentage}%`;
+                progressPercentage.textContent = `${percentage}%`;
+            }
+        }
+
+        // 진행 상태 업데이트
+        function updateProgressSteps(currentStep, percentage) {
+            const steps = document.querySelectorAll('.progress-step');
+
+            steps.forEach((step, index) => {
+                const stepNumber = index + 1;
+
+                if (stepNumber < currentStep) {
+                    step.className = 'progress-step completed';
+                    step.innerHTML = step.innerHTML.replace('⏳', '✓').replace('⏸', '✓');
+                } else if (stepNumber === currentStep) {
+                    step.className = 'progress-step active';
+                    step.innerHTML = step.innerHTML.replace('⏸', '⏳');
+                } else {
+                    step.className = 'progress-step pending';
+                }
+            });
+
+            updateProgressBar(percentage);
+        }
+
+        // 모든 단계 완료
+        function completeAllSteps() {
+            const steps = document.querySelectorAll('.progress-step');
+            steps.forEach((step) => {
+                step.className = 'progress-step completed';
+                step.innerHTML = step.innerHTML.replace('⏳', '✓').replace('⏸', '✓');
+            });
+            updateProgressBar(100);
+        }
+
+        // Base64를 Blob으로 변환
+        function base64ToBlob(base64, contentType) {
+            const byteCharacters = atob(base64);
+            const byteArrays = [];
+
+            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                const slice = byteCharacters.slice(offset, offset + 512);
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+
+            return new Blob(byteArrays, {type: contentType});
+        }
+
+        // 검사 결과 표시
+        function displayResults(result) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const errorsList = document.getElementById('errorsList');
+            const statTotal = document.getElementById('statTotal');
+            const statHighlighted = document.getElementById('statHighlighted');
+            const statNotHighlighted = document.getElementById('statNotHighlighted');
+            const statNotHighlightedContainer = document.getElementById('statNotHighlightedContainer');
+            const warningMessage = document.getElementById('warningMessage');
+
+            // 통계 업데이트
+            statTotal.textContent = result.errors_found;
+            statHighlighted.textContent = result.errors_highlighted;
+
+            const notHighlighted = result.errors_found - result.errors_highlighted;
+            if (notHighlighted > 0) {
+                statNotHighlighted.textContent = notHighlighted;
+                statNotHighlightedContainer.style.display = 'block';
+                warningMessage.style.display = 'block';
+            }
+
+            // 오류 카드 생성
+            errorsList.innerHTML = '';
+            result.errors.forEach((error, index) => {
+                const card = createErrorCard(error, index);
+                errorsList.appendChild(card);
+            });
+
+            // 결과 컨테이너 표시
+            resultsContainer.classList.add('active');
+
+            // 스크롤
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // 오류 카드 생성
+        function createErrorCard(error, index) {
+            const card = document.createElement('div');
+            card.className = 'error-card';
+            card.id = `error-card-${index}`;
+
+            const category = error.category || 'default';
+            const categoryName = {
+                'SPACING': '띄어쓰기',
+                'SPELL': '맞춤법',
+                'GRAMMAR': '문법',
+                'TYPO': '오타'
+            }[category] || '기타';
+
+            card.innerHTML = `
+                <div class="error-card-header" onclick="toggleErrorCard(${index})">
+                    <div class="error-card-title">
+                        <span class="error-badge ${category}">${categoryName}</span>
+                        <span class="error-text-wrong">${escapeHtml(error.wrong)}</span>
+                        <span class="error-arrow">→</span>
+                        <span class="error-text-correct">${escapeHtml(error.correct)}</span>
+                        ${error.page ? `<span class="page-badge">p.${error.page}</span>` : ''}
+                    </div>
+                    <div class="error-toggle">▼</div>
+                </div>
+                <div class="error-card-body">
+                    <div class="error-detail-row">
+                        <div class="error-detail-label">틀린 표현</div>
+                        <div class="error-detail-value">${escapeHtml(error.wrong)}</div>
+                    </div>
+                    <div class="error-detail-row">
+                        <div class="error-detail-label">올바른 표현</div>
+                        <div class="error-detail-value">${escapeHtml(error.correct)}</div>
+                    </div>
+                    ${error.help ? `
+                    <div class="error-detail-row">
+                        <div class="error-detail-label">설명</div>
+                        <div class="error-detail-value">${escapeHtml(error.help)}</div>
+                    </div>
+                    ` : ''}
+                    ${error.page ? `
+                    <div class="error-detail-row">
+                        <div class="error-detail-label">위치</div>
+                        <div class="error-detail-value">페이지 ${error.page}</div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+
+            return card;
+        }
+
+        // 오류 카드 토글
+        function toggleErrorCard(index) {
+            const card = document.getElementById(`error-card-${index}`);
+            card.classList.toggle('expanded');
+        }
+
+        // HTML 이스케이프
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         // 상태 메시지 표시
