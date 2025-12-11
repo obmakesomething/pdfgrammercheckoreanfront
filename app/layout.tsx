@@ -76,6 +76,12 @@ export default function RootLayout({
           src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"
           strategy="beforeInteractive"
         />
+
+        {/* TossPayments SDK */}
+        <Script
+          src="https://js.tosspayments.com/v1/payment"
+          strategy="afterInteractive"
+        />
       </head>
       <body className={inter.className}>{children}</body>
     </html>

@@ -1,9 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import PDFUploader from '@/components/PDFUploader'
 import AdPlayer from '@/components/AdPlayer'
 import SEOContent from '@/components/SEOContent'
+import PaymentModal from '@/components/PaymentModal'
+
+interface PaymentInfo {
+  charCount: number
+  amount: number
+  orderId: string
+  orderName: string
+}
 
 export default function Home() {
   const [pdfFile, setPdfFile] = useState<File | null>(null)
@@ -15,6 +23,13 @@ export default function Home() {
   const [progressMessage, setProgressMessage] = useState('')
   const [errorsFound, setErrorsFound] = useState<number | null>(null)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+
+  // Payment state
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo | null>(null)
+
+  // Ref to track if ad was already completed
+  const adCompletedRef = useRef(false)
 
   const handleSubmit = () => {
     // Validation
@@ -40,6 +55,7 @@ export default function Home() {
 
     // Show ad
     setMessage(null)
+    adCompletedRef.current = false
     setShowAd(true)
   }
 
@@ -49,14 +65,18 @@ export default function Home() {
   }
 
   const handleAdComplete = async () => {
+    // Prevent duplicate calls
+    if (adCompletedRef.current) return
+    adCompletedRef.current = true
+
     setShowAd(false)
     setIsProcessing(true)
     setMessage(null)
     setErrorsFound(null)
 
     try {
-      // 단계 1: 업로드 시작
-      setProgressMessage('📤 파일 업로드 중...')
+      // Step 1: Analyze PDF first to check character count
+      setProgressMessage('📊 PDF 분석 중...')
 
       const formData = new FormData()
       formData.append('pdf', pdfFile!)
@@ -64,21 +84,66 @@ export default function Home() {
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.pdfgrammercheckorean.site'
 
-      // 단계 2: 서버 전송
+      // Call analyze-pdf to check if payment is needed
+      const analyzeResponse = await fetch(`${apiUrl}/api/analyze-pdf`, {
+        method: 'POST',
+        body: formData,
+      })
+
+      const analyzeData = await analyzeResponse.json()
+
+      // Check if payment is required (402 status or needs_payment flag)
+      if (analyzeResponse.status === 402 || analyzeData.needs_payment) {
+        setProgressMessage('')
+        setIsProcessing(false)
+
+        // Show payment modal
+        setPaymentInfo({
+          charCount: analyzeData.char_count,
+          amount: analyzeData.amount,
+          orderId: analyzeData.order_id || `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          orderName: `PDF 맞춤법 검사 - ${analyzeData.char_count.toLocaleString()}자`
+        })
+        setShowPaymentModal(true)
+        return
+      }
+
+      // If no payment needed, proceed with processing
+      await processCheckPdf()
+
+    } catch (error) {
+      console.error('Error:', error)
+      setProgressMessage('')
+      setIsProcessing(false)
+      setMessage({
+        type: 'error',
+        text: '❌ 서버 연결에 실패했습니다.\n네트워크 상태를 확인한 후 다시 시도해주세요.'
+      })
+    }
+  }
+
+  const processCheckPdf = async () => {
+    try {
       setProgressMessage('⏳ PDF 맞춤법 검사 중...')
+
+      const formData = new FormData()
+      formData.append('pdf', pdfFile!)
+      formData.append('email', email)
+
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.pdfgrammercheckorean.site'
 
       const response = await fetch(`${apiUrl}/api/check-pdf`, {
         method: 'POST',
         body: formData,
       })
 
-      setProgressMessage('') // 팝업 닫기
+      setProgressMessage('') // Close popup
 
       if (response.ok) {
-        // 헤더에서 오류 개수 추출
+        // Extract error count from header
         const errorsCount = parseInt(response.headers.get('X-Errors-Found') || '0')
 
-        // PDF 파일 다운로드
+        // Download PDF file
         const blob = await response.blob()
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement('a')
@@ -89,14 +154,14 @@ export default function Home() {
         window.URL.revokeObjectURL(url)
         document.body.removeChild(a)
 
-        // 오류 개수에 따라 메시지 변경
+        // Set message based on error count
         const errorMessage = errorsCount === 0
           ? '✅ 맞춤법 오류가 발견되지 않았습니다!'
           : `✅ ${errorsCount}개의 맞춤법 오류를 발견했습니다!`
 
         setMessage({
           type: 'success',
-          text: `${errorMessage}\n\nPDF 파일이 다운로드되었습니다.\n\n색상별 의미:\n🔵 파란색 - 띄어쓰기\n🔴 빨간색 - 맞춤법/오타\n🟡 노란색 - 문법\n🟠 주황색 - 기타\n\n주석을 클릭하면 수정 제안을 확인할 수 있습니다.`
+          text: `${errorMessage}\n\nPDF 파일이 다운로드되었습니다.\n입력하신 이메일로도 결과를 발송해드립니다.\n\n색상별 의미:\n🔵 파란색 - 띄어쓰기\n🔴 빨간색 - 맞춤법/오타\n🟡 노란색 - 문법\n🟠 주황색 - 기타\n\n주석을 클릭하면 수정 제안을 확인할 수 있습니다.`
         })
 
         // Reset form
@@ -105,11 +170,23 @@ export default function Home() {
         setAgreedToTerms(false)
         setAgreedToPrivacy(false)
       } else {
-        const data = await response.json()
-        setMessage({
-          type: 'error',
-          text: `❌ ${data.message || '오류가 발생했습니다. 다시 시도해주세요.'}`
-        })
+        // Handle 402 Payment Required
+        if (response.status === 402) {
+          const data = await response.json()
+          setPaymentInfo({
+            charCount: data.char_count,
+            amount: data.amount,
+            orderId: data.order_id || `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+            orderName: `PDF 맞춤법 검사 - ${data.char_count?.toLocaleString() || ''}자`
+          })
+          setShowPaymentModal(true)
+        } else {
+          const data = await response.json()
+          setMessage({
+            type: 'error',
+            text: `❌ ${data.message || '오류가 발생했습니다. 다시 시도해주세요.'}`
+          })
+        }
       }
     } catch (error) {
       console.error('Error:', error)
@@ -131,6 +208,15 @@ export default function Home() {
     })
   }
 
+  const handlePaymentModalClose = () => {
+    setShowPaymentModal(false)
+    setPaymentInfo(null)
+    setMessage({
+      type: 'error',
+      text: '결제가 취소되었습니다. 5만자 이상의 문서는 유료 서비스입니다.'
+    })
+  }
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8 bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="max-w-4xl w-full space-y-8">
@@ -141,6 +227,9 @@ export default function Home() {
           </h1>
           <p className="text-xl text-gray-600">
             PDF 파일의 맞춤법을 검사하고 색상별 주석으로 표시하여 다운로드해드립니다
+          </p>
+          <p className="text-sm text-gray-500">
+            5만자 이하 무료 | 5만자 초과 시 1,000자당 10원
           </p>
         </div>
 
@@ -199,6 +288,15 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={showPaymentModal}
+        onClose={handlePaymentModalClose}
+        paymentInfo={paymentInfo}
+        email={email}
+        pdfFile={pdfFile}
+      />
     </main>
   )
 }
