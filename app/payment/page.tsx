@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 import Script from 'next/script'
 import Link from 'next/link'
 
@@ -12,7 +11,6 @@ declare global {
 }
 
 export default function PaymentPage() {
-  const searchParams = useSearchParams()
   const widgetRef = useRef<any>(null)
   const [isReady, setIsReady] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
