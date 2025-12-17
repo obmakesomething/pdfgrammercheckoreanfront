@@ -7,9 +7,41 @@
     <!-- 메인 페이지 -->
     <url>
         <loc>https://pdfgrammercheckorean.site</loc>
-        <lastmod>2025-11-07</lastmod>
+        <lastmod>2025-12-17</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+    </url>
+
+    <!-- 결제 페이지 -->
+    <url>
+        <loc>https://pdfgrammercheckorean.site/payment</loc>
+        <lastmod>2025-12-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- 개인정보처리방침 -->
+    <url>
+        <loc>https://pdfgrammercheckorean.site/privacy.html</loc>
+        <lastmod>2025-12-17</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <!-- 이용약관 -->
+    <url>
+        <loc>https://pdfgrammercheckorean.site/terms.html</loc>
+        <lastmod>2025-12-17</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <!-- 사용 가이드 -->
+    <url>
+        <loc>https://pdfgrammercheckorean.site/guide.html</loc>
+        <lastmod>2025-12-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
     </url>
 
 </urlset>

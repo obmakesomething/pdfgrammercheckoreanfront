@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import PDFUploader from '@/components/PDFUploader'
 import AdPlayer from '@/components/AdPlayer'
 import SEOContent from '@/components/SEOContent'
@@ -15,6 +16,30 @@ export default function Home() {
   const [progressMessage, setProgressMessage] = useState('')
   const [errorsFound, setErrorsFound] = useState<number | null>(null)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+  const [isPremium, setIsPremium] = useState(false)
+  const [premiumDaysLeft, setPremiumDaysLeft] = useState(0)
+
+  // 프리미엄 상태 확인
+  useEffect(() => {
+    const checkPremiumStatus = () => {
+      const expiryDate = localStorage.getItem('premiumExpiry')
+      if (expiryDate) {
+        const expiry = new Date(expiryDate)
+        const now = new Date()
+        if (expiry > now) {
+          setIsPremium(true)
+          const daysLeft = Math.ceil((expiry.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+          setPremiumDaysLeft(daysLeft)
+        } else {
+          // 만료됨
+          localStorage.removeItem('premiumExpiry')
+          localStorage.removeItem('premiumOrderId')
+          setIsPremium(false)
+        }
+      }
+    }
+    checkPremiumStatus()
+  }, [])
 
   const handleSubmit = () => {
     // Validation
@@ -38,9 +63,14 @@ export default function Home() {
       return
     }
 
-    // Show ad
     setMessage(null)
-    setShowAd(true)
+
+    // 프리미엄 사용자는 광고 건너뛰기
+    if (isPremium) {
+      handleAdComplete()
+    } else {
+      setShowAd(true)
+    }
   }
 
   const validateEmail = (email: string) => {
@@ -134,6 +164,15 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-8 bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="max-w-4xl w-full space-y-8">
+        {/* Premium Status Banner */}
+        {isPremium && (
+          <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-xl p-4 text-center shadow-lg">
+            <span className="font-semibold">프리미엄 회원</span>
+            <span className="mx-2">|</span>
+            <span>광고 없이 무제한 사용 가능 ({premiumDaysLeft}일 남음)</span>
+          </div>
+        )}
+
         {/* Header */}
         <div className="text-center space-y-4">
           <h1 className="text-5xl font-bold text-gray-900">
@@ -142,6 +181,18 @@ export default function Home() {
           <p className="text-xl text-gray-600">
             PDF 파일의 맞춤법을 검사하고 색상별 주석으로 표시하여 다운로드해드립니다
           </p>
+          {/* Premium Button */}
+          {!isPremium && (
+            <Link
+              href="/payment"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all"
+            >
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              프리미엄 가입 - 광고 없이 무제한 사용
+            </Link>
+          )}
         </div>
 
         {/* Main Content */}
