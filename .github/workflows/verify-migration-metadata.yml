@@ -8,8 +8,6 @@ on:
       - scripts/verify-migration-metadata.mjs
       - .github/workflows/verify-migration-metadata.yml
   push:
-    branches:
-      - main
     paths:
       - app/layout.tsx
       - package.json
