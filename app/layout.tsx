@@ -10,9 +10,9 @@ const notoSansKr = Noto_Sans_KR({
 })
 
 export const metadata: Metadata = {
-  title: 'PDF 한국어 맞춤법 검사기 - 무료 온라인 PDF 맞춤법 교정',
-  description: 'PDF 파일의 한국어 맞춤법을 무료로 검사하고 교정합니다. 업로드한 PDF에 맞춤법 오류를 빨간색으로 표시하여 이메일로 전송해드립니다. 간편하고 빠른 PDF 맞춤법 검사 서비스.',
-  keywords: 'PDF 맞춤법 검사, 한국어 맞춤법, PDF 교정, 맞춤법 교정, 온라인 맞춤법 검사, 무료 맞춤법 검사',
+  title: 'PDF 한국어 맞춤법 검사기 - Apps in Toss에서 이용하세요',
+  description: '웹 서비스는 종료되었습니다. PDF 한국어 맞춤법 검사는 Toss 앱의 pdfgrammercheckorean 미니앱에서 이용할 수 있습니다.',
+  keywords: 'PDF 맞춤법 검사, 한국어 맞춤법, Apps in Toss, Toss 미니앱, pdfgrammercheckorean',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: 'PDF 한국어 맞춤법 검사기',
-    description: 'PDF 파일의 한국어 맞춤법을 무료로 검사하고 교정합니다.',
+    title: 'PDF 한국어 맞춤법 검사기 - Apps in Toss 전용',
+    description: '웹 서비스는 종료되었습니다. Toss 앱의 pdfgrammercheckorean 미니앱에서 이용해 주세요.',
     type: 'website',
     locale: 'ko_KR',
   },
